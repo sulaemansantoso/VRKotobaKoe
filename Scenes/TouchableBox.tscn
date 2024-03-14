@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://b1ci3e1q1ytdw"]
+
+[ext_resource type="Script" path="res://Script/TouchableBox.gd" id="1_6n5pn"]
+[ext_resource type="Texture2D" uid="uid://c1a8ead6pkktg" path="res://Assets/numbersinJapanese.png" id="1_sj575"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_aaqo8"]
+size = Vector3(0.9, 0.9, 0.02)
+
+[node name="Board" type="Node3D"]
+script = ExtResource("1_6n5pn")
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_aaqo8")
+
+[node name="Image" type="Sprite3D" parent="Mesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0256405)
+pixel_size = 0.003
+texture = ExtResource("1_sj575")
+hframes = 3
+vframes = 3
+frame = 5
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Mesh"]
+light_color = Color(0.219608, 0.752941, 1, 1)
+shadow_enabled = true
+omni_range = 2.0
