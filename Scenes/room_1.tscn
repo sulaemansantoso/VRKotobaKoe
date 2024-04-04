@@ -1,9 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://bw0eg6ie2hmds"]
+[gd_scene load_steps=4 format=3 uid="uid://bw0eg6ie2hmds"]
 
 [ext_resource type="PackedScene" uid="uid://c2pwic1ocbbpc" path="res://Scenes/player.tscn" id="1_agfx3"]
+[ext_resource type="Script" path="res://Scenes/roomScript.gd" id="1_st7he"]
 [ext_resource type="PackedScene" uid="uid://cyunxclwnej5y" path="res://Scenes/NumberRoom.tscn" id="2_uajx2"]
 
 [node name="Room1" type="Node3D"]
+script = ExtResource("1_st7he")
 
 [node name="Player" parent="." instance=ExtResource("1_agfx3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.58069)

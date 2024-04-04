@@ -14,3 +14,8 @@ func _ready():
 		get_viewport().use_xr = true
 	else:
 		print("OpenXR not initialized, please check if your headset is connected")
+
+
+func _on_function_pointer_pointing_event(event):
+	
+	pass # Replace with function body.

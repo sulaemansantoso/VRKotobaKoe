@@ -1,26 +1,87 @@
-[gd_scene load_steps=4 format=3 uid="uid://b1ci3e1q1ytdw"]
+[gd_scene load_steps=9 format=3 uid="uid://b1ci3e1q1ytdw"]
 
 [ext_resource type="Script" path="res://Script/TouchableBox.gd" id="1_6n5pn"]
-[ext_resource type="Texture2D" uid="uid://c1a8ead6pkktg" path="res://Assets/numbersinJapanese.png" id="1_sj575"]
+[ext_resource type="Script" path="res://Scenes/TouchBoxInteractable.gd" id="3_3ny5c"]
+[ext_resource type="Texture2D" uid="uid://cx27obyq3vixi" path="res://Assets/Room1/numbersboard.png" id="3_kwqgn"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_aaqo8"]
 size = Vector3(0.9, 0.9, 0.02)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_di5cc"]
+size = Vector3(1, 1, 0.0789185)
+
+[sub_resource type="Animation" id="Animation_8xtm3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("StaticBody3D/Mesh/Image:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_rfd7p"]
+resource_name = "clicked"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("StaticBody3D/Mesh/Image:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0.0862745, 0.0862745, 0.0862745, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_l8h32"]
+_data = {
+"RESET": SubResource("Animation_8xtm3"),
+"clicked": SubResource("Animation_rfd7p")
+}
+
 [node name="Board" type="Node3D"]
 script = ExtResource("1_6n5pn")
 
-[node name="Mesh" type="MeshInstance3D" parent="."]
-mesh = SubResource("BoxMesh_aaqo8")
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+collision_layer = 7
+collision_mask = 7
+script = ExtResource("3_3ny5c")
 
-[node name="Image" type="Sprite3D" parent="Mesh"]
+[node name="Mesh" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("BoxMesh_aaqo8")
+skeleton = NodePath("../..")
+
+[node name="Image" type="Sprite3D" parent="StaticBody3D/Mesh"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0256405)
 pixel_size = 0.003
-texture = ExtResource("1_sj575")
+texture = ExtResource("3_kwqgn")
 hframes = 3
-vframes = 3
-frame = 5
+vframes = 4
+frame = 6
 
-[node name="OmniLight3D" type="OmniLight3D" parent="Mesh"]
+[node name="OmniLight3D" type="OmniLight3D" parent="StaticBody3D/Mesh"]
+visible = false
 light_color = Color(0.219608, 0.752941, 1, 1)
 shadow_enabled = true
 omni_range = 2.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0229187)
+shape = SubResource("BoxShape3D_di5cc")
+
+[node name="WordSound" type="AudioStreamPlayer" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_l8h32")
+}
+
+[connection signal="pointer_event" from="StaticBody3D" to="." method="_on_static_body_3d_pointer_event"]
